@@ -10,6 +10,17 @@ class StreamProcessor(object):
           eg: f = io.StringIO("234761640930110349378289194")
               my_stream_processor = MyStreamProcessor(f)
               
+
+    You can see the `tests.py` file for more examples of expected outcomes.
+    """
+
+    def __init__(self, stream):
+        self._stream = stream
+
+    def process(self):
+        """
+        :return: int
+
         2. You call a `process` method of my_stream_processor.
         
           This method:
@@ -38,18 +49,6 @@ class StreamProcessor(object):
                131, etc.
             3. For this particular stream, the running total will exceed 200 after
                5 such additions: the `process` method should return 5.
-
-    You can see the `tests.py` file for more examples of expected outcomes.
-    """
-
-    def __init__(self, stream):
-        self._stream = stream
-
-    def process(self):
-        """
-        TODO: Implement the `process` method, as described above.
-        
-        :return: int
         """
 
         count = 0  # How many two-digit numbers the `process` method has added
@@ -61,7 +60,15 @@ class StreamProcessor(object):
         # Just some example syntax, you can read two digits from the head of the
         # stream using the following code:
         #
-        # digits = self._stream.read(2)
-
+        while count < 10 and total < 200:
+            try:
+                digits = self._stream.read(2)
+                if len(digits) == 2:
+                    total += int(digits)
+                    count += 1
+                else:
+                    break
+            except ValueError:
+                break
 
         return count
